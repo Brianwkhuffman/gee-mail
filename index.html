@@ -1,18 +1,62 @@
-<html>
+<!DOCTYPE html>
+<html lang='en'>
 	<head>
 		<script src="js/mail-generator.js"></script>
 		<link href="css/style.css" rel="stylesheet" media="screen">
     <script>
       window.onload = function(){
         // ALL OF YOUR JAVASCRIPT CODE SHOULD GO HERE. 
-        // We have to use window.onload so your JavaScript doesn't execute until the page has loaded and all HTML has been downloaded to your browser
-        
+				// We have to use window.onload so your JavaScript doesn't execute until the page has loaded and all HTML has been downloaded to your browser
+				console.log(window.geemails);
+				for(var i=0;i<geemails.length;i++){
+					//empty box for messages
+					var msgBox = document.createElement('div');
+					msgBox.className = 'msgContainer';
+					document.body.appendChild(msgBox);
+					//dates adding to msg box
+					var maildate = document.createElement('div');
+					maildate.className = 'dates';
+					maildate.innerHTML = 'Date: ' + geemails[i].date;
+					msgBox.appendChild(maildate);
+					//subject added to msg box
+					var mailsub = document.createElement('div');
+					mailsub.className = 'subject';
+					mailsub.innerHTML = 'Subject: ' + geemails[i].subject;
+					mailsub.addEventListener('click', showHide) //event listener to show message
+					msgBox.appendChild(mailsub);
+					//sender added to msg box
+					var mailsender = document.createElement('div');
+					mailsender.className = 'mailSender';
+					mailsender.innerHTML = 'From: ' + geemails[i].sender;
+					msgBox.appendChild(mailsender);
+					//message body added to msg box
+					var mailbody = document.createElement('div');
+					mailbody.className = 'messageBody';
+					mailbody.innerHTML = geemails[i].body;
+					mailbody.style.display = 'none';
+					mailsub.appendChild(mailbody);
+				}
+
+				//function for show/hide message body in line 25
+				function showHide(){
+					var showBody = this.querySelector('.messageBody');
+					if (showBody.style.display === 'none'){
+						showBody.style.display = 'block';
+					}else{
+						showBody.style.display = 'none';
+					}
+				}
+
+				setInterval(generateMessage(date), 1000);
+
       };
-    </script>
+		</script>
+		<title>Mail Time</title>
 	</head>
 	<body>
 		<div class="container" id="main">
-			Build Me!
+			<h1>Mail Time:</h1>
 		</div>
+			
 	</body>
 </html>
