@@ -36,6 +36,7 @@
 					mailbody.style.display = 'none';
 					mailsub.appendChild(mailbody);
 				}
+
 				//function for show/hide message body in line 25
 				function showHide(){
 					var showBody = this.querySelector('.messageBody');
@@ -46,43 +47,43 @@
 					}
 				}
 
-				//function for creating new messages, same as above
-				function createNewMsg(){
-					var msgTest = getNewMessage();
-					//console.log(msgTest); testing function
-					var msgBoxNew = document.createElement('div');
-					msgBoxNew.className = 'msgContainer';
-					msgBox.appendChild(msgBoxNew);
-					//dates adding to msg box
-					var maildateNew = document.createElement('div');
-					maildateNew.className = 'dates';
-					maildateNew.innerHTML = 'Date: ' + msgTest.date;
-					msgBox.appendChild(maildateNew);
-					//subject added to msg box
-					var mailsubNew = document.createElement('div');
-					mailsubNew.className = 'subject';
-					mailsubNew.innerHTML = 'Subject: ' + msgTest.subject;
-					mailsubNew.addEventListener('click', showHide) //event listener to show message
-					msgBox.appendChild(mailsubNew);
-					//sender added to msg box
-					var mailsenderNew = document.createElement('div');
-					mailsenderNew.className = 'mailSender';
-					mailsenderNew.innerHTML = 'From: ' + msgTest.sender;
-					msgBox.appendChild(mailsenderNew);
-					//message body added to msg box
-					var mailbodyNew = document.createElement('div');
-					mailbodyNew.className = 'messageBody';
-					mailbodyNew.innerHTML = msgTest.body;
-					mailbodyNew.style.display = 'none';
-					mailsubNew.appendChild(mailbodyNew);
-				}
-				//interval set for creating new messages
-				setInterval(createNewMsg, 5000);
 				//message counter, work in progress
 				var countBox = document.createElement('div');
 				countBox.classname = 'counter';
 				countBox.innerHTML = 'Inbox: ' + geemails.length;
 				main.appendChild(countBox);
+
+				//function for creating new messages, same as above
+				function createNewMsg(){
+					var msgTest = getNewMessage();
+					var msgBoxNew = document.createElement('div');
+					msgBoxNew.className = 'msgContainer';
+					msgBox.appendChild(msgBoxNew);
+					var maildateNew = document.createElement('div');
+					maildateNew.className = 'dates';
+					maildateNew.innerHTML = 'Date: ' + msgTest.date;
+					msgBox.appendChild(maildateNew);
+					var mailsubNew = document.createElement('div');
+					mailsubNew.className = 'subject';
+					mailsubNew.innerHTML = 'Subject: ' + msgTest.subject;
+					mailsubNew.addEventListener('click', showHide) //event listener to show message
+					msgBox.appendChild(mailsubNew);
+					var mailsenderNew = document.createElement('div');
+					mailsenderNew.className = 'mailSender';
+					mailsenderNew.innerHTML = 'From: ' + msgTest.sender;
+					msgBox.appendChild(mailsenderNew);
+					var mailbodyNew = document.createElement('div');
+					mailbodyNew.className = 'messageBody';
+					mailbodyNew.innerHTML = msgTest.body;
+					mailbodyNew.style.display = 'none';
+					mailsubNew.appendChild(mailbodyNew);
+					countBox.innerHTML = 'Inbox: ' + ++geemails.length; //adds 1 to counter each time message is made
+				}
+
+				
+				//interval set for creating new messages
+				setInterval(createNewMsg, 5000);
+				
       };
 		</script>
 		<title>Mail Time</title>
