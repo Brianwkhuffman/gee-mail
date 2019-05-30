@@ -3,6 +3,7 @@
 	<head>
 		<script src="js/mail-generator.js"></script>
 		<link href="css/style.css" rel="stylesheet" media="screen">
+		<link href="https://fonts.googleapis.com/css?family=Megrim|Roboto+Slab&display=swap" rel="stylesheet">
     <script>
       window.onload = function(){
         // ALL OF YOUR JAVASCRIPT CODE SHOULD GO HERE. 
@@ -12,23 +13,23 @@
 					//empty box for messages
 					var msgBox = document.createElement('div');
 					msgBox.className = 'msgContainer';
-					document.body.appendChild(msgBox);
+					main.appendChild(msgBox);
 					//dates adding to msg box
 					var maildate = document.createElement('div');
 					maildate.className = 'dates';
 					maildate.innerHTML = 'Date: ' + geemails[i].date;
 					msgBox.appendChild(maildate);
+					//sender added to msg box
+					var mailsender = document.createElement('div');
+					mailsender.className = 'mailSender';
+					mailsender.innerHTML = 'From: ' + geemails[i].sender;
+					msgBox.appendChild(mailsender);
 					//subject added to msg box
 					var mailsub = document.createElement('div');
 					mailsub.className = 'subject';
 					mailsub.innerHTML = 'Subject: ' + geemails[i].subject;
 					mailsub.addEventListener('click', showHide) //event listener to show message
 					msgBox.appendChild(mailsub);
-					//sender added to msg box
-					var mailsender = document.createElement('div');
-					mailsender.className = 'mailSender';
-					mailsender.innerHTML = 'From: ' + geemails[i].sender;
-					msgBox.appendChild(mailsender);
 					//message body added to msg box
 					var mailbody = document.createElement('div');
 					mailbody.className = 'messageBody';
@@ -47,51 +48,103 @@
 					}
 				}
 
-				//message counter, work in progress
-				var countBox = document.createElement('div');
-				countBox.classname = 'counter';
-				countBox.innerHTML = 'Inbox: ' + geemails.length;
-				main.appendChild(countBox);
+				//Inbox message counter
+				var countBox = document.getElementsByTagName('span');
+				countBox[1].innerHTML = geemails.length;
+				//random number for outbox icon
+				countBox[3].innerHTML = Math.floor(Math.random() * 20);
+				//random number for trash icon
+				countBox[5].innerHTML = Math.floor(Math.random()* 400);
+
 
 				//function for creating new messages, same as above
 				function createNewMsg(){
 					var msgTest = getNewMessage();
-					var msgBoxNew = document.createElement('div');
-					msgBoxNew.className = 'msgContainer';
-					msgBox.appendChild(msgBoxNew);
+					var msgBox = document.createElement('div');
+					msgBox.className = 'msgContainer';
+					main.appendChild(msgBox);
 					var maildateNew = document.createElement('div');
 					maildateNew.className = 'dates';
 					maildateNew.innerHTML = 'Date: ' + msgTest.date;
 					msgBox.appendChild(maildateNew);
-					var mailsubNew = document.createElement('div');
-					mailsubNew.className = 'subject';
-					mailsubNew.innerHTML = 'Subject: ' + msgTest.subject;
-					mailsubNew.addEventListener('click', showHide) //event listener to show message
-					msgBox.appendChild(mailsubNew);
 					var mailsenderNew = document.createElement('div');
 					mailsenderNew.className = 'mailSender';
 					mailsenderNew.innerHTML = 'From: ' + msgTest.sender;
 					msgBox.appendChild(mailsenderNew);
+					var mailsubNew = document.createElement('div');
+					mailsubNew.className = 'subject';
+					mailsubNew.innerHTML = 'Subject: ' + msgTest.subject;
+					mailsubNew.addEventListener('click', showHide) //event listener click added to message subject to show message
+					msgBox.appendChild(mailsubNew);
 					var mailbodyNew = document.createElement('div');
 					mailbodyNew.className = 'messageBody';
 					mailbodyNew.innerHTML = msgTest.body;
 					mailbodyNew.style.display = 'none';
 					mailsubNew.appendChild(mailbodyNew);
-					countBox.innerHTML = 'Inbox: ' + ++geemails.length; //adds 1 to counter each time message is made
+					countBox[1].innerHTML = ++geemails.length; //adds 1 to inbox counter each time new message is made
 				}
 
-				
+
 				//interval set for creating new messages
 				setInterval(createNewMsg, 5000);
-				
+
+				// Old message counter, working. decided to use span badge instead.
+				// var countBox = document.createElement('p');
+				// countBox.classname = 'counter';
+				// countBox.innerHTML = 'Inbox: ' + geemails.length;
+				// main.appendChild(countBox);
+				var grabBox = document.getElementsByClassName('msgContainer');
+
+				//Outbox click function to show/hide
+				var sentPic = document.getElementById('outbox');
+				sentPic.style.display = 'none';
+				countBox[2].addEventListener('click', showoutbox);
+				function showoutbox(){
+					if(sentPic.style.display === 'none'){
+						sentPic.style.display = 'block';
+					}else{
+						sentPic.style.display = 'none';
+					}
+				}
+				//Trash click function show/hide
+				var trashPic = document.getElementById('trash');
+				trashPic.style.display = 'none';
+				countBox[4].addEventListener('click', showtrash);
+				function showtrash(){
+					var grabBox = document.getElementsByClassName('msgContainer');
+					if(trashPic.style.display === 'none'){
+						trashPic.style.display = 'block'
+					}else{
+						trashPic.style.display = 'none';
+					}
+				}
       };
 		</script>
 		<title>Mail Time</title>
 	</head>
 	<body>
-		<div class="container" id="main">
-			<h1>Mail Time:</h1>
+		
+		<div class="container" id="main" style ='display: block'>
+			<h1>Welcome Back!</h1>
+			<a href="#" class="notification">
+				<span>Inbox</span>
+				<span class="badge">10</span>
+			</a>
+			<a href="#" class='notification'>
+				<span>Outbox</span>
+				<span class="outBadge">0</span>
+			</a>
+			<a href="#" class='notification'>
+				<span>Trash</span>
+				<span class="trashBadge">0</span>
+			</a>
+			<div id="outbox">
+					<img src="http://sw2njs9jb.gb-02.live-paas.net/wp-content/uploads/2017/11/send-in-banner-1024x726.png" alt="sent">
+				</div>
+				<div id="trash">
+					<img src="https://www.latimes.com/resizer/JlRVR60x20qnXEAQNADKtdrtfgw=/1200x0/arc-anglerfish-arc2-prod-tronc.s3.amazonaws.com/public/4D46FVPJNNBQ3N2JAP4AVWFI2E.jpg" alt="trash">
+				</div>
 		</div>
-			
+		
 	</body>
 </html>
